@@ -1,11 +1,55 @@
 package com.example.queue;
 
+import java.util.Scanner;
+
 public class ArrayQueueDemo {
     public static void main(String[] args) {
-
+        ArrayQueue arrayQueue = new ArrayQueue(3);
+        char key = ' '; // 接受输入
+        Scanner scanner = new Scanner(System.in);
+        boolean loop = true;
+        // 输出菜单
+        while (loop){
+            System.out.println("s(show): 显示队列");
+            System.out.println("a(add): 添加数据到队列");
+            System.out.println("g(get): 从队列中取出数据");
+            System.out.println("h(head): 从队列中取出数据");
+            System.out.println("e(exit): 退出队列");
+            key = scanner.next().charAt(0); // 接受输入字符
+            switch (key){
+                case 's':
+                    arrayQueue.showQueue();
+                    break;
+                case 'a':
+                    System.out.println("请输入一个数");
+                    arrayQueue.addQueue(scanner.nextInt());
+                    break;
+                case 'g':
+                    try {
+                        System.out.printf("取出的数据是：%d\n", arrayQueue.getQueue());
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                case 'h':
+                    try {
+                        System.out.printf("队列头数据为：%d\n", arrayQueue.headQueue());
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                case 'e':
+                    scanner.close();
+                    break;
+                default:
+                    throw new RuntimeException("无效的输入！");
+            }
+        }
+        System.out.println("结束！");
     }
 }
 
+/**
+ * 使用数组模拟队列
+ */
 class ArrayQueue {
     private int maxSize; // 表示该数组队列的最大值
     private int front; // 队列头
@@ -36,7 +80,7 @@ class ArrayQueue {
         if (isFull()) {
             throw new RuntimeException("队列已满，无法添加数据");
         }
-        rear++; // 让rear后移
+        rear++; // rear后移
         array[rear] = n;
     }
 
