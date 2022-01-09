@@ -18,8 +18,8 @@ public class SingleLinkedListDemo {
         singleLinkedList.addByOrder(hero4);
         singleLinkedList.addByOrder(hero2);
         singleLinkedList.addByOrder(hero3);
-        singleLinkedList.addByOrder(hero3);
-
+//        singleLinkedList.update(new HeroNode(6, "name5", "nick5"));
+        singleLinkedList.delete(3);
         singleLinkedList.list();
     }
 
@@ -90,6 +90,75 @@ class SingleLinkedList {
     }
 
     /**
+     * 根据heroNo编号来修改节点信息(heroNo编号不能更改)
+     * @param newHeroNode
+     */
+    public void update(HeroNode newHeroNode) {
+        if (null == headNode.next) {
+            System.out.println("链表为空");
+            return;
+        }
+
+        // 根据heroNo编号找到需要修改的节点
+        HeroNode temp = headNode.next; // 定义辅助变量
+        boolean flag = false; // 表示是否找到该节点
+
+        while (true) {
+            if (null == temp) { // temp已在链表尾
+                break;
+            }
+
+            if (temp.heroNo == newHeroNode.heroNo) {
+                flag = true;
+                break;
+            }
+
+            temp = temp.next;
+        }
+
+        if (flag) {
+            temp.name = newHeroNode.name;
+            temp.nickName = newHeroNode.nickName;
+        } else {
+            System.out.printf("不存在编号为%d的节点\n", newHeroNode.heroNo);
+        }
+    }
+
+    /**
+     * 根据排名编号heroNo删除节点信息
+     * 1.头节点head不能动，需要一个辅助节点temp定位待删除节点的前一个节点
+     * 2.比较时，是temp.next.no和需要删除节点的heroNo比较
+     * @param deleteHeroNo
+     */
+    public void delete(int deleteHeroNo) {
+        if (null == headNode.next) {
+            System.out.println("链表为空");
+            return;
+        }
+        HeroNode temp = headNode;
+        boolean flag = false;
+
+        while(true) {
+            if (null == temp.next) { // temp是链表最后一个节点
+                break;
+            }
+
+            if (temp.next.heroNo == deleteHeroNo) {
+                flag = true;
+                break;
+            }
+            temp = temp.next;
+        }
+
+        if (flag) {
+            temp.next = temp.next.next;
+        } else {
+            System.out.printf("不存在编号为%d节点\n", deleteHeroNo);
+        }
+
+    }
+
+    /**
      * 遍历链表
      */
     public void list() {
@@ -102,7 +171,7 @@ class SingleLinkedList {
         // 因为头节点，不能动，因此我们需要一个辅助变量
         HeroNode temp = headNode.next;
         while (true) {
-            // 判断是否到链表
+            // 判断是否到链表尾
             if (null == temp) {
                 break;
             }
@@ -129,7 +198,6 @@ class HeroNode {
         this.name = name;
         this.nickName = nickName;
     }
-
 
     @Override
     public String toString() {
