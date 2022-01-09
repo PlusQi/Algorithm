@@ -19,7 +19,7 @@ public class SingleLinkedListDemo {
         singleLinkedList.addByOrder(hero2);
         singleLinkedList.addByOrder(hero3);
 //        singleLinkedList.update(new HeroNode(6, "name5", "nick5"));
-        singleLinkedList.delete(3);
+//        singleLinkedList.delete(3);
         singleLinkedList.list();
     }
 
