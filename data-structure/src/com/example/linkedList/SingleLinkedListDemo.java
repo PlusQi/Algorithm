@@ -1,5 +1,7 @@
 package com.example.linkedList;
 
+import static com.example.linkedList.SingleLinkedList.*;
+
 public class SingleLinkedListDemo {
     public static void main(String[] args) {
         HeroNode hero1 = new HeroNode(1, "宋江", "及时雨");
@@ -14,12 +16,26 @@ public class SingleLinkedListDemo {
         singleLinkedList.add(hero3);
         singleLinkedList.add(hero4);*/
 
+        // 根据排名编号添加节点
         singleLinkedList.addByOrder(hero1);
         singleLinkedList.addByOrder(hero4);
         singleLinkedList.addByOrder(hero2);
         singleLinkedList.addByOrder(hero3);
 //        singleLinkedList.update(new HeroNode(6, "name5", "nick5"));
-//        singleLinkedList.delete(3);
+//        singleLinkedList.delete(3); // 删除3号节点
+
+        // 遍历输出单链表的有效节点
+        singleLinkedList.list();
+
+        // 输出单链表有效节点个数
+        System.out.println("有效的节点个数:" + getLength(singleLinkedList.getHeadNode()));
+
+        // 输出单链表倒数第N个节点
+        System.out.println(findTailNode(singleLinkedList.getHeadNode(), 1));
+
+        // 单链表反转
+        System.out.println("反转后的单链表");
+        reverse(singleLinkedList.getHeadNode());
         singleLinkedList.list();
     }
 
@@ -29,6 +45,10 @@ public class SingleLinkedListDemo {
 class SingleLinkedList {
     // 初始化一个头节点，头节点不存放具体数据
     private HeroNode headNode = new HeroNode(0, "", "");
+
+    public HeroNode getHeadNode() {
+        return headNode;
+    }
 
     /**
      * 添加节点到单向链表
@@ -50,7 +70,7 @@ class SingleLinkedList {
             temp = temp.next;
         }
 
-        // 当推出while循环时，temp就指向了链表的最后
+        // 当退出while循环时，temp就指向了链表的最后
         // 将最后这个节点的next指向新的节点
         temp.next = heroNode;
 
@@ -78,7 +98,6 @@ class SingleLinkedList {
             }
 
             temp = temp.next; // 后移，遍历当前链表
-
         }
 
         if (flag) { // 排名编号已存在，不能添加
@@ -91,7 +110,7 @@ class SingleLinkedList {
 
     /**
      * 根据heroNo编号来修改节点信息(heroNo编号不能更改)
-     * @param newHeroNode
+     * @param newHeroNode 要修改的节点内容
      */
     public void update(HeroNode newHeroNode) {
         if (null == headNode.next) {
@@ -128,7 +147,7 @@ class SingleLinkedList {
      * 根据排名编号heroNo删除节点信息
      * 1.头节点head不能动，需要一个辅助节点temp定位待删除节点的前一个节点
      * 2.比较时，是temp.next.no和需要删除节点的heroNo比较
-     * @param deleteHeroNo
+     * @param deleteHeroNo 要删除的节点号
      */
     public void delete(int deleteHeroNo) {
         if (null == headNode.next) {
@@ -184,6 +203,75 @@ class SingleLinkedList {
         }
     }
 
+    /**
+     * 获取到单链表的节点个数(如果是带头节点的链表，需求不统计头节点)
+     * @param head 单链表头节点
+     * @return 有效节点个数
+     */
+    public static int getLength(HeroNode head) {
+        if (null == head.next) {
+            return 0;
+        }
+
+        int length = 0;
+        HeroNode temp = head.next;
+        while (null != temp) {
+            length++;
+            temp = temp.next;
+        }
+        return length;
+    }
+
+    /**
+     * 查找单链表的倒数第N个节点
+     * 1.先遍历链表，得到链表中长度getLength
+     * 2.从链表的第一个节点开始遍历(getLength - index)次，返回该节点
+     * @param headNode 头节点
+     * @param index 要查找的倒数第N个节点
+     * @return
+     */
+    public static HeroNode findTailNode(HeroNode headNode, int index) {
+        if (null == headNode.next) { // 链表为空
+            return null;
+        }
+
+        // 遍历得到链表长度(有效节点个数)
+        int size = getLength(headNode);
+        if (index <= 0 || index > size) {
+            return null;
+        }
+
+        // 定义辅助变量，循环遍历(getLength - index)次，获得要查找的节点
+        HeroNode temp = headNode.next;
+        for (int i = 0; i < size - index; i++) {
+            temp = temp.next;
+        }
+
+        return temp;
+    }
+
+    /**
+     * 反转节点
+     */
+    public static void reverse(HeroNode headNode) {
+        if (null == headNode.next || null == headNode.next.next) { //链表为空或只有一个节点
+            System.out.println("链表为空");
+            return;
+        }
+
+        HeroNode temp = headNode.next;
+        HeroNode nextNode = null; // 指向当前节点的下一个节点
+        HeroNode reverseHeadNode = new HeroNode(0, "", "");
+        while (null != temp) {
+            nextNode = temp.next; // 暂存当前节点的下一个节点
+            temp.next = reverseHeadNode.next; // 将temp的下一个节点指向新链表最前端
+            reverseHeadNode.next = temp;
+            temp = nextNode; // temp后移
+        }
+
+        headNode.next = reverseHeadNode.next;
+
+    }
 }
 
 // 每个HeroNode对象就是一个节点
