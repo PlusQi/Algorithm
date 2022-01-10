@@ -1,5 +1,7 @@
 package com.example.linkedList;
 
+import java.util.Stack;
+
 import static com.example.linkedList.SingleLinkedList.*;
 
 public class SingleLinkedListDemo {
@@ -37,6 +39,10 @@ public class SingleLinkedListDemo {
         System.out.println("反转后的单链表");
         reverse(singleLinkedList.getHeadNode());
         singleLinkedList.list();
+
+        // 逆序打印单链表
+        System.out.println("逆序打印单链表");
+        reversPrint(singleLinkedList.getHeadNode());
     }
 
 }
@@ -270,6 +276,29 @@ class SingleLinkedList {
         }
 
         headNode.next = reverseHeadNode.next;
+
+    }
+
+    /**
+     * 逆序打印单链表
+     * @param headNode 链表头节点
+     */
+    public static void reversPrint(HeroNode headNode) {
+        if (null == headNode.next)
+            return;
+
+        // 创建要给一个栈，将各个节点压入栈
+        Stack<HeroNode> nodeStack = new Stack<>();
+        HeroNode temp = headNode.next;
+
+        // 将链表的所有节点压入栈
+        while (null != temp) {
+            nodeStack.add(temp);
+            temp = temp.next;
+        }
+
+        while (nodeStack.size() > 0)
+        System.out.println(nodeStack.pop());
 
     }
 }
