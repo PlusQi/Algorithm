@@ -83,6 +83,44 @@ class DoubleLinkedList {
             temp = temp.next;
         }
     }
+
+    /**
+     * 根据排名编号删除节点
+     * 对于双向链表，可以直接找到要删除的这个节点
+     * @param deleteHeroNo 排名编号
+     */
+    public void delete(int deleteHeroNo) {
+        // 判断当前链表是否为空
+        if (null == headNode.next) {
+            System.out.println("链表为空");
+            return;
+        }
+
+        HeroNode2 temp= headNode.next;
+        boolean flag = false; // 标志是否找到待删除节点
+        while (true) {
+            if (null == temp) { // 已经到链表最后
+                break;
+            }
+
+            if (temp.heroNo == deleteHeroNo) {
+                // 找到的待删除节点的前一个节点temp
+                flag = true;
+                break;
+            }
+
+            temp = temp.next;
+        }
+
+        if (flag) { // 找到待删除节点
+            temp.pre.next = temp.next;
+            // 如果是最后一个节点就不需要执行
+            if (null != temp.next)
+            temp.next.pre = temp.pre;
+        } else {
+            System.out.printf("要删除的%d节点不存在\n", deleteHeroNo);
+        }
+    }
 }
 
 class HeroNode2 {
