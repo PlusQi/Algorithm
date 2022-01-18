@@ -27,6 +27,12 @@ public class DoubleLinkedListDemo {
         System.out.println("删除后的链表");
         doubleLinkedList.list();
 
+        // 按顺序添加节点
+        System.out.println("按顺序添加节点");
+        HeroNode2 heroNode3 = new HeroNode2(3, "吴用", "智多星");
+        doubleLinkedList.addByOrder(heroNode3);
+        doubleLinkedList.list();
+
 
 
     }
@@ -83,10 +89,41 @@ class DoubleLinkedList {
             temp = temp.next;
         }
 
-        // 当推出while循环时，temp就指向了链表的最后
+        // 当退出while循环时，temp就指向了链表的最后
         // 形成了一个双向链表
         temp.next = heroNode2;
         heroNode2.pre = temp;
+    }
+
+    /**
+     * 按排名编号顺序添加新节点
+     * 找到添加位置的前一个节点
+     * @param heroNode2
+     */
+    public void addByOrder(HeroNode2 heroNode2) {
+        HeroNode2 temp = headNode;
+        boolean flag = false; // 标记排名编号是否已存在
+        while (true) {
+            if (null == temp.next)
+                break;
+
+            if (temp.next.heroNo > heroNode2.heroNo) {
+                break;
+            } else if (temp.heroNo == heroNode2.heroNo){
+                flag = true;
+                break;
+            }
+
+            temp = temp.next;
+        }
+
+        if (flag) {
+            System.out.println("待添加的节点编号已存在");
+        } else {
+            heroNode2.next = temp.next;
+            temp.next.pre = heroNode2;
+            temp.next = heroNode2;
+        }
     }
 
     /**
