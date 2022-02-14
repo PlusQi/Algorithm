@@ -1,8 +1,45 @@
 package com.example.stack;
 
+import java.util.Scanner;
+
 public class ArrayStackDemo {
     public static void main(String[] args) {
+        ArrayStack arrayStack = new ArrayStack(4);
+        String key = "";
 
+        boolean loop = true; // 控制是否退出菜单
+        Scanner scanner = new Scanner(System.in);
+
+        while (loop) {
+            System.out.println("show: 表示显示栈");
+            System.out.println("exit: 退出程序");
+            System.out.println("push: 入栈");
+            System.out.println("pop: 出栈");
+            key = scanner.next();
+
+            switch (key){
+                case "show":
+                    arrayStack.showStack();
+                    break;
+                case "push":
+                    System.out.println("请输入一个数：");
+                    arrayStack.push(scanner.nextInt());
+                    break;
+                case "pop":
+                    try {
+                        System.out.printf("出栈的数据是：%d\n", arrayStack.pop());
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case "exit":
+                    scanner.close();
+                    loop = false;
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
 
