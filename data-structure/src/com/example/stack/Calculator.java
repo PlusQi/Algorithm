@@ -31,18 +31,42 @@ public class Calculator {
                         oper = operStack.pop();
                         res = numStack.cal(num1, num2, oper);
                         // 把运算的结果入数栈
-                        numStack.push(ch);
+                        numStack.push(res);
+                        // 将当前的操作符入符号栈
+                        operStack.push(ch);
                     } else {
                         // 如果当前操作符的优先级大于栈中的操作符，就直接入符号栈
                         operStack.push(ch);
                     }
                 } else {
                     // 如果为空直接入栈
-
+                    operStack.push(ch);
                 }
+            } else {
+                numStack.push(ch - 48);
+            }
+            // index + 1, 并判断是否扫描到expression后
+            index++;
+            if (index >= expression.length()) {
+                break;
             }
         }
 
+        // 当表达式扫描完毕，就顺序的从数栈和符号栈中pop出相对应的数和符号，并运行
+        while (true) {
+            // 如果符号栈为空，则计算到最后的结果，数栈中只有一个数字【结果】
+            if (operStack.isEmpty()) {
+                break;
+            }
+
+            num1 = numStack.pop();
+            num2 = numStack.pop();
+            res = numStack.cal(num1, num2, oper);
+            numStack.push(res);
+        }
+
+        // 将结果出栈
+        System.out.printf("表达式%s = %d", expression, numStack.pop());
     }
 }
 
