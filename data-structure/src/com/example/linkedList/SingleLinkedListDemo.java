@@ -316,6 +316,18 @@ class HeroNode {
         this.nickName = nickName;
     }
 
+    public int getHeroNo() {
+        return heroNo;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
     @Override
     public String toString() {
         return "HeroNode{" +
